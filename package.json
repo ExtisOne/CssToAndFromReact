@@ -7,10 +7,7 @@
     "test": "cross-env CI=true react-scripts-ts test --env=jsdom",
     "test:unit": "cross-env CI=true react-scripts-ts test --testPathPattern=.*/src/.*.test.tsx?$",
     "test-watch": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "ghpages:publish": "npm run build && npm run ghpages:clean && npm run ghpages:rename",
-    "ghpages:clean": "rimraf ./docs",
-    "ghpages:rename": "node ./bin/rename -s build -d docs"
+    "eject": "react-scripts-ts eject"
   },
   "dependencies": {
     "autoprefixer": "^8.4.1",
