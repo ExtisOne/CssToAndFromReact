@@ -18,24 +18,10 @@ type AppState = {
     reverseError?: string
 };
 
-enum GA_TRACKING_CATEGORIES {
-    TRANSLATION = "Translation",
-}
-
-enum TRANSLATION_ACTIONS {
-    TO_CSS = "To CSS",
-    FROM_CSS = "From CSS",
-}
 
 export default class App extends React.Component<AppProps, AppState> {
-    private readonly gAManager: GoogleAnalyticsManager = new GoogleAnalyticsManager();
 
-    componentDidMount(): void {
-        if (typeof window !== "undefined") {
-            const path = window.location.pathname + window.location.search;
-            this.gAManager.pageview(path);
-        }
-    }
+    componentDidMount(): void {}
 
     constructor(props) {
         super(props);
@@ -49,7 +35,6 @@ export default class App extends React.Component<AppProps, AppState> {
             shouldFormat: false
         };
 
-        this.gAManager.init();
     }
 
     inputTextUpdate(e) {
@@ -73,8 +58,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
             return promiseReverse(outputText)
                 .then(result => {
-                    this.trackTranslation(TRANSLATION_ACTIONS.TO_CSS);
-
                     this.setState({
                         inputText: result.css,
                         reverseError: null
@@ -104,8 +87,6 @@ export default class App extends React.Component<AppProps, AppState> {
             let transformed = transform(this.state.inputText);
 
             let result = JSON.stringify(transformed, null, shouldFormat ? 2 : 0);
-
-            this.trackTranslation(TRANSLATION_ACTIONS.FROM_CSS);
 
             this.setState({
                 outputText: result,
@@ -147,12 +128,5 @@ export default class App extends React.Component<AppProps, AppState> {
                 /> Format
             </div>
         );
-    }
-
-    private trackTranslation(action: TRANSLATION_ACTIONS) {
-        this.gAManager.event({
-            category: GA_TRACKING_CATEGORIES.TRANSLATION,
-            action
-        });
     }
 }
